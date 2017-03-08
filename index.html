@@ -3,15 +3,18 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <link rel='stylesheet' href='twittlerstyle.css'>
   </head>
+  
   <body>
+    <h1>Twittler</h1>    
     <script>
 
 //original code - annotated
       $(document).ready(function(){
         var $body = $('body');
-        // this make sure body is cleared every time DOM is loaded ?
-        $body.html(''); 
+        // this make sure body is cleared every time DOM is loaded
+        // $body.html(''); 
 
         //var index - tells u how many objs are in home stream 
         var index = streams.home.length - 1;
@@ -23,6 +26,7 @@
           
           var $timeStamp = $('<div></div>');
           $timeStamp.text(tweet.created_at);
+          $timeStamp.addClass('timeStamp');
           $timeStamp.appendTo($tweet);          
 
           //tweet being appended to DOM
@@ -33,7 +37,8 @@
         
         // create button called "display new tweets"
         var $displayNew = $('<button></button>');
-        $displayNew.text('Display New Tweets'); 
+        $displayNew.text('Display New Tweets');
+        $displayNew.addClass('displayNewButton'); 
         //prependTo body element (to be up top)
         $displayNew.prependTo($body);
 
@@ -43,7 +48,6 @@
         $('body').on('click', 'button', function() { 
             //set last index of streams.home as newTweet and appendTo body 
             var index = streams.home.length - 1;
-
             var $newTweet = $('<div></div>');
             $newTweet.text('@' + streams.home[index].user + ': ' + streams.home[index].message);
 
@@ -56,11 +60,14 @@
             $timeStamp.addClass('timeStamp');
             $timeStamp.appendTo($newTweet);
 
-            $newTweet.appendTo($body);                        
+            var $afterButton = $body.first().next();
+            $newTweet.appendTo($body);                
           }
         );
 
 // ** 3) Design your interface so that you want to look at and use the product you're making.
+          //created link in head for external css stylesheet
+
 // ** 4) Allow the user to click on a username to see that user's timeline.
       
       }); // end of $(document).ready(); function 

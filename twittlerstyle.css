@@ -1,0 +1,21 @@
+body {
+	background: white;
+	font-size: 15px;
+}
+
+div {
+	background: grey;
+	font-size: 15px;
+}
+
+.timeStamp {
+	background: gry;
+	font-size: 10px;
+	font-style: italic;
+}
+
+.displayNewButton {
+	background: gry;
+	font-size: 10px;
+	font-style: italic;
+}
