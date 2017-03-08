@@ -26,10 +26,18 @@
         while(index >= 0){
           var tweet = streams.home[index];
           var $tweet = $('<div></div>');
+
+          var tweetUser = tweet.user;
+          var $tweetUser = $('<a></a>');
+          $tweetUser.text('@' + tweetUser);
+          $tweetUser.addClass(tweetUser);
+          // $tweetUser.attr("href", "streams.tweetUser");
+
           //text for each tweet being manipulated in DOM using jQuery
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
+          $tweet.append($tweetUser);
+          $tweet.append(': ' + tweet.message);
           $tweet.addClass('tweet');
-          
+                    
           var $timeStamp = $('<div></div>');
           $timeStamp.text(tweet.created_at);
           $timeStamp.addClass('timeStamp');
@@ -75,6 +83,48 @@
           //created link in head for external css stylesheet
 
 // ** 4) Allow the user to click on a username to see that user's timeline.
+          //create anchor tags on users
+            //create user variable 
+              //give anchor tags classname
+            //refactor and put user variable in mesg 
+
+          //on click of classname anchor tag 
+          $('a').on('click', function () {
+            //save user's name. this refers to 'a'
+            var username = $(this).attr('class'); 
+
+            //clears tweetStream 
+            $tweetStream.html('');
+
+            //comment this out later
+            $tweetStream.text(username + ' Tweets : ' + streams.users[username].length);
+
+            //shows only user's tweets by accessing stream.users array of tweet objects. Using While loop like above 
+            var index = streams.users[username].length - 1;
+            while(index >= 0){
+              var tweet = streams.users[username][index];
+              var $tweet = $('<div></div>');
+
+              var tweetUser = tweet.user;
+              var $tweetUser = $('<a></a>');
+              $tweetUser.text('@' + tweetUser);
+              $tweetUser.addClass(tweetUser);
+              // $tweetUser.attr("href", "streams.tweetUser");
+              
+              $tweet.append($tweetUser);
+              $tweet.append(': ' + tweet.message);
+              $tweet.addClass('tweet');
+              
+              var $timeStamp = $('<div></div>');
+              $timeStamp.text(tweet.created_at);
+              $timeStamp.addClass('timeStamp');
+              $timeStamp.appendTo($tweet);          
+
+              $tweet.prependTo($tweetStream);
+              index -= 1;
+            }
+          }); 
+
       
       }); // end of $(document).ready(); function 
 
