@@ -7,6 +7,7 @@
   <body>
     <script>
 
+//original code - annotated
       $(document).ready(function(){
         var $body = $('body');
         // this make sure body is cleared every time DOM is loaded ?
@@ -19,11 +20,16 @@
           var $tweet = $('<div></div>');
           //text for each tweet being manipulated in DOM using jQuery
           $tweet.text('@' + tweet.user + ': ' + tweet.message);
+          
+          var $timeStamp = $('<div></div>');
+          $timeStamp.text(tweet.created_at);
+          $timeStamp.appendTo($tweet);          
+
           //tweet being appended to DOM
           $tweet.appendTo($body);
           index -= 1;
         }
-        // ** 1) Show the user new tweets somehow. (You can show them automatically as they're created, or create a button that displays new tweets.)
+// ** 1) Show the user new tweets somehow. (You can show them automatically as they're created, or create a button that displays new tweets.)
         
         // create button called "display new tweets"
         var $displayNew = $('<button></button>');
@@ -33,21 +39,29 @@
 
         // use event delegation on.('click','button', func) to get one new tweets
         // tweets being added automatically. index is increasing
-        
+
         $('body').on('click', 'button', function() { 
             //set last index of streams.home as newTweet and appendTo body 
             var index = streams.home.length - 1;
 
             var $newTweet = $('<div></div>');
             $newTweet.text('@' + streams.home[index].user + ': ' + streams.home[index].message);
+
+// ** 2) Display the timestamps of when the tweets were created. This timestamp should reflect the actual time the tweets were created, and should not just be hardcoded.
+          
+            //use tweet's property "tweet.created_at"
+            //create new <div> element inside of $newTweet to store in new line
+            var $timeStamp = $('<div></div>');
+            $timeStamp.text(streams.home[index].created_at);
+            $timeStamp.addClass('timeStamp');
+            $timeStamp.appendTo($newTweet);
+
             $newTweet.appendTo($body);                        
           }
         );
 
-
-        // 2) Display the timestamps of when the tweets were created. This timestamp should reflect the actual time the tweets were created, and should not just be hardcoded.
-        // 3) Design your interface so that you want to look at and use the product you're making.
-        // 4) Allow the user to click on a username to see that user's timeline.
+// ** 3) Design your interface so that you want to look at and use the product you're making.
+// ** 4) Allow the user to click on a username to see that user's timeline.
       
       }); // end of $(document).ready(); function 
 
