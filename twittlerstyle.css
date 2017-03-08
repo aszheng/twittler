@@ -12,9 +12,14 @@ h1 {
 
 button {
 	margin-bottom: 20px;
-	margin-left: 500px;
+	margin-left: 525px;
 	font-size: 10px;
 	font-style: italic;
+}
+
+a {
+	color: blue;
+	text-decoration: underline;
 }
 
 .tweetStream {
