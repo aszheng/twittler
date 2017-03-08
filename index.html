@@ -16,6 +16,11 @@
         // this make sure body is cleared every time DOM is loaded
         // $body.html(''); 
 
+        //tweetStream is a new <div> inside body
+        var $tweetStream = $('<div></div>');
+        $tweetStream.addClass('tweetStream');
+        $tweetStream.appendTo($body);
+
         //var index - tells u how many objs are in home stream 
         var index = streams.home.length - 1;
         while(index >= 0){
@@ -23,14 +28,15 @@
           var $tweet = $('<div></div>');
           //text for each tweet being manipulated in DOM using jQuery
           $tweet.text('@' + tweet.user + ': ' + tweet.message);
+          $tweet.addClass('tweet');
           
           var $timeStamp = $('<div></div>');
           $timeStamp.text(tweet.created_at);
           $timeStamp.addClass('timeStamp');
           $timeStamp.appendTo($tweet);          
 
-          //tweet being appended to DOM
-          $tweet.appendTo($body);
+          //tweet being appended to tweetStream
+          $tweet.prependTo($tweetStream);
           index -= 1;
         }
 // ** 1) Show the user new tweets somehow. (You can show them automatically as they're created, or create a button that displays new tweets.)
@@ -40,7 +46,7 @@
         $displayNew.text('Display New Tweets');
         $displayNew.addClass('displayNewButton'); 
         //prependTo body element (to be up top)
-        $displayNew.prependTo($body);
+        $displayNew.insertAfter($('h1'));
 
         // use event delegation on.('click','button', func) to get one new tweets
         // tweets being added automatically. index is increasing
@@ -50,6 +56,7 @@
             var index = streams.home.length - 1;
             var $newTweet = $('<div></div>');
             $newTweet.text('@' + streams.home[index].user + ': ' + streams.home[index].message);
+            $newTweet.addClass('tweet');
 
 // ** 2) Display the timestamps of when the tweets were created. This timestamp should reflect the actual time the tweets were created, and should not just be hardcoded.
           
@@ -60,8 +67,7 @@
             $timeStamp.addClass('timeStamp');
             $timeStamp.appendTo($newTweet);
 
-            var $afterButton = $body.first().next();
-            $newTweet.appendTo($body);                
+            $newTweet.prependTo($tweetStream);                
           }
         );
 

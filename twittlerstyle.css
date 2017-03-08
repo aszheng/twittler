@@ -3,19 +3,25 @@ body {
 	font-size: 15px;
 }
 
-div {
-	background: grey;
-	font-size: 15px;
+h1 {
+	font-size: 30px;
+}
+
+.tweet {
+	border-style: solid;
+	border-width: 2px;
+	border-color: grey;
+	background: white;
+	margin-bottom: 5px;
 }
 
 .timeStamp {
-	background: gry;
+	background: white;
 	font-size: 10px;
 	font-style: italic;
 }
 
 .displayNewButton {
-	background: gry;
 	font-size: 10px;
 	font-style: italic;
 }
