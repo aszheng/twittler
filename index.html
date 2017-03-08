@@ -9,19 +9,60 @@
 
       $(document).ready(function(){
         var $body = $('body');
-        $body.html('');
+        // this make sure body is cleared every time DOM is loaded ?
+        $body.html(''); 
 
+        //var index - tells u how many objs are in home stream 
         var index = streams.home.length - 1;
         while(index >= 0){
           var tweet = streams.home[index];
           var $tweet = $('<div></div>');
+          //text for each tweet being manipulated in DOM using jQuery
           $tweet.text('@' + tweet.user + ': ' + tweet.message);
+          //tweet being appended to DOM
           $tweet.appendTo($body);
           index -= 1;
         }
+        // ** 1) Show the user new tweets somehow. (You can show them automatically as they're created, or create a button that displays new tweets.)
+        
+        // create button called "display new tweets"
+        var $displayNew = $('<button></button>');
+        $displayNew.text('Display New Tweets'); 
+        //prependTo body element (to be up top)
+        $displayNew.prependTo($body);
 
-      });
+        // use event delegation on.('click','button', func) to get one new tweets
+        // tweets being added automatically. index is increasing
+        
+        $('body').on('click', 'button', function() { 
+            //set last index of streams.home as newTweet and appendTo body 
+            var index = streams.home.length - 1;
+
+            var $newTweet = $('<div></div>');
+            $newTweet.text('@' + streams.home[index].user + ': ' + streams.home[index].message);
+            $newTweet.appendTo($body);                        
+          }
+        );
+
+
+        // 2) Display the timestamps of when the tweets were created. This timestamp should reflect the actual time the tweets were created, and should not just be hardcoded.
+        // 3) Design your interface so that you want to look at and use the product you're making.
+        // 4) Allow the user to click on a username to see that user's timeline.
+      
+      }); // end of $(document).ready(); function 
+
+
+      //**code create own tweet** for extra credit later
+      // var newTweet = {};
+      // newTweet.message = 'HIIIIIII';
+      // newTweet.user = 'mracus';
+      // var $newTweet = $('<div></div>');
+      // $newTweet.text('@' + newTweet.user + ': ' + newTweet.message);
+      // $newTweet.appendTo($body);
 
     </script>
   </body>
 </html>
+
+
+
