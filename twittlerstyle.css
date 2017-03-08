@@ -1,24 +1,41 @@
 body {
-	background: white;
-	font-size: 15px;
+	background: #00aced;
+	font-family: Serif;
+	font-size: 12px;
 }
 
 h1 {
+	color: white;
+	text-align: center;
 	font-size: 30px;
 }
 
-.tweet {
+button {
+	margin-bottom: 20px;
+	margin-left: 500px;
+}
+
+.tweetStream {
+	background: #00aced;
+}
+
+.tweet {	
 	border-style: solid;
 	border-width: 2px;
 	border-color: grey;
-	background: white;
 	margin-bottom: 5px;
+	margin-left: 300px;
+	margin-right: 300px;
+	
+	background: white;
+	text-align: center;
 }
 
 .timeStamp {
 	background: white;
 	font-size: 10px;
 	font-style: italic;
+	color: grey;
 }
 
 .displayNewButton {
