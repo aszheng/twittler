@@ -1,20 +1,26 @@
 body {
 	background: #00aced;
-	font-family: Serif;
+	font-family: Helvetica Neue;
 	font-size: 12px;
 }
 
 h1 {
 	color: white;
 	text-align: center;
-	font-size: 30px;
+	font-size: 48px;
 }
 
 button {
-	margin-bottom: 20px;
 	margin-left: 525px;
 	font-size: 10px;
 	font-style: italic;
+}
+
+h2 {
+	color: #ccd6dd;
+	font-style: italic;
+	text-align: center;
+	font-size: 10px;
 }
 
 a {
@@ -25,8 +31,9 @@ a {
 .tweetStream {
 	background: white;
 	border-style: solid;
+	border-radius: 5px;
 	border-width: 2px;
-	border-color: grey;
+	border-color: #ccd6dd;
 	margin-left: 300px;
 	margin-right: 300px;
 }
@@ -35,9 +42,6 @@ a {
 	margin-bottom: 10px;
 	margin-left: 10px;
 	margin-right: 10px;
-	
-	background: white;
-	text-align: center;
 }
 
 .timeStamp {
@@ -45,5 +49,10 @@ a {
 	font-size: 10px;
 	font-style: italic;
 	color: grey;
+}
+
+.tweetStreamCount {
+	font-size: 10px;
+	color: black;
 }
 

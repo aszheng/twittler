@@ -7,7 +7,10 @@
   </head>
   
   <body>
-    <h1>Twittler</h1>    
+    <h1> 
+      <img src="http://www.exclusive.cars/resources/images/social-twitter.png" alt="logo" height="42" width="42"> Twittler
+      </h1>
+    <h2>Stream refreshes every 10 seconds</h2>    
     <script>
 
 //original code - annotated
@@ -21,40 +24,52 @@
         $tweetStream.addClass('tweetStream');
         $tweetStream.appendTo($body);
 
+        var tweetRefresh = function (){
         //var index - tells u how many objs are in home stream 
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
+          var index = streams.home.length - 1;
+          while(index >= 0){
+            var tweet = streams.home[index];
+            var $tweet = $('<div></div>');
 
-          var tweetUser = tweet.user;
-          var $tweetUser = $('<a></a>');
-          $tweetUser.text('@' + tweetUser);
-          $tweetUser.addClass(tweetUser);
-          // $tweetUser.attr("href", "streams.tweetUser");
+            var tweetUser = tweet.user;
+            //create anchor tags on users (for returning user's tweets later)
+            var $tweetUser = $('<a></a>');
+            $tweetUser.text('@' + tweetUser);
+            //create class with user's username (for returning user's tweets later)
+            $tweetUser.addClass(tweetUser);
 
-          //text for each tweet being manipulated in DOM using jQuery
-          $tweet.append($tweetUser);
-          $tweet.append(': ' + tweet.message);
-          $tweet.addClass('tweet');
+            //text for each tweet being manipulated in DOM using jQuery
+            $tweet.append($tweetUser);
+            $tweet.append(': ' + tweet.message);
+            $tweet.addClass('tweet');
 
-// ** 2) Display the timestamps of when the tweets were created. This timestamp should reflect the actual time the tweets were created, and should not just be hardcoded.
-          
-          //create new <div> element inside of $newTweet to store in new line                              
-          var $timeStamp = $('<div></div>');
-          //use tweet's property "tweet.created_at"          
-          $timeStamp.text(tweet.created_at);
-          $timeStamp.addClass('timeStamp');
-          $timeStamp.appendTo($tweet);          
+  // ** 2) Display the timestamps of when the tweets were created. This timestamp should reflect the actual time the tweets were created, and should not just be hardcoded.
+            
+            //create new <div> elem inside of $tweet to store in new line                              
+            var $timeStamp = $('<div></div>');
+            //use tweet's property "tweet.created_at"          
+            $timeStamp.text(tweet.created_at);
+            $timeStamp.addClass('timeStamp');
+            $timeStamp.appendTo($tweet);          
 
-          //tweet being appended to tweetStream
-          $tweet.appendTo($tweetStream);
-          index -= 1;
-        }
+            //tweet being appended to tweetStream
+            $tweet.appendTo($tweetStream);
+            index -= 1;
+          }          
+        };
+
+        //call tweetRefresh to preload tweets
+        tweetRefresh();
+
+        //autofeed every 10 seconds 
+        setInterval(function () {
+          $tweetStream.html('');
+          tweetRefresh();
+        }, 10000);
 
 // ** 1) Show the user new tweets somehow. (You can show them automatically as they're created, or create a button that displays new tweets.)
         
-        // create button called "Home" (will use to return to feed after clicking on username later on)
+        // create "Home" button (will use to return to feed after clicking on username later on)
         var $homeButton = $('<button></button>');
         $homeButton.text('Home');
         $homeButton.addClass('homeButton');
@@ -66,66 +81,41 @@
           //clear tweetStream
           $tweetStream.html('');
 
-          //while loop to reprint streams
-          var index = streams.home.length - 1;
-          while(index >= 0){
-            var tweet = streams.home[index];
-            var $tweet = $('<div></div>');
-
-            var tweetUser = tweet.user;
-            var $tweetUser = $('<a></a>');
-            $tweetUser.text('@' + tweetUser);
-            $tweetUser.addClass(tweetUser);
-            // $tweetUser.attr("href", "streams.tweetUser");
-
-            //text for each tweet being manipulated in DOM using jQuery
-            $tweet.append($tweetUser);
-            $tweet.append(': ' + tweet.message);
-            $tweet.addClass('tweet');
-
-            
-            var $timeStamp = $('<div></div>');
-            $timeStamp.text(tweet.created_at);
-            $timeStamp.addClass('timeStamp');
-            $timeStamp.appendTo($tweet);          
-
-            //tweet being appendTo to tweetStream
-            $tweet.appendTo($tweetStream);
-            index -= 1;
-          }        
+          //return fresh copy of tweetStream with new tweets
+          tweetRefresh();     
         });     
 
 // ** 3) Design your interface so that you want to look at and use the product you're making.
         //created link in head for external css stylesheet
 
 // ** 4) Allow the user to click on a username to see that user's timeline.
-        //create anchor tags on users
-          //create user variable 
-            //give anchor tags classname
-          //refactor and put user variable in mesg 
-
-        //on click of classname anchor tag 
-        $('a').on('click', function () {
+        
+        //FIXED ISSUE - where click doesn't work after Home is clicked/refreshed
+        //must listen to the DOM itself, because jQuery selector returns element when DOM is first created
+        
+        $(document).on('click', 'a', function () {
           //save user's name. this refers to 'a'
           var username = $(this).attr('class'); 
 
           //clears tweetStream 
           $tweetStream.html('');
 
-          //COMMENT THIS OUT LATER. For reference to see if while loop runs 
-          // $tweetStream.text(username + ' Tweets : ' + streams.users[username].length);
+          //For reference to see if while loop runs.
+          var $tweetStreamCount = $('<p></p>')
+          $tweetStreamCount.text('@' + username + ' Tweets : ' + streams.users[username].length);
+          $tweetStreamCount.addClass('tweetStreamCount');
+          $tweetStreamCount.prependTo($tweetStream);
 
           //shows only user's tweets by accessing stream.users array of tweet objects. Using While loop like above 
-          var index = streams.users[username].length - 1;
-          while(index >= 0){
-            var tweet = streams.users[username][index];
+          var newindex = streams.users[username].length - 1;
+          while(newindex >= 0){
+            var tweet = streams.users[username][newindex];
             var $tweet = $('<div></div>');
 
             var tweetUser = tweet.user;
             var $tweetUser = $('<a></a>');
             $tweetUser.text('@' + tweetUser);
             $tweetUser.addClass(tweetUser);
-            // $tweetUser.attr("href", "streams.tweetUser");
             
             $tweet.append($tweetUser);
             $tweet.append(': ' + tweet.message);
@@ -136,13 +126,10 @@
             $timeStamp.addClass('timeStamp');
             $timeStamp.appendTo($tweet);          
 
-            $tweet.prependTo($tweetStream);
-            index -= 1;
+            $tweet.appendTo($tweetStream);
+            newindex -= 1;
           }
         }); 
-
- 
-      
       }); // end of $(document).ready(); function 
 
 
