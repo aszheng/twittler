@@ -30,16 +30,21 @@ $(document).ready(function(){
 
 // ** 2) Display the timestamps of when the tweets were created. This timestamp should reflect the actual time the tweets were created, and should not just be hardcoded.
             
-      //create new <div> elem inside of $tweet to store in new line                              
-      var $timeStamp = $('<div></div>');
-      //use tweet's property "tweet.created_at"          
-      $timeStamp.text(tweet.created_at);
-      $timeStamp.addClass('timeStamp');
+      //create new <time> elem inside of $tweet to store in new line                              
+      var $timeStamp = $('<time></time>');
+      //use tweet's property "tweet.created_at". convert to ISO time format for timeago          
+      $timeStamp.text(tweet.created_at.toISOString());
+      $timeStamp.addClass('timeago');
+      //add attr for timeago. convert to ISO time format for timeago
+      $timeStamp.attr('datetime', tweet.created_at.toISOString());            
       $timeStamp.appendTo($tweet);          
 
       //tweet being appended to tweetStream
       $tweet.appendTo($tweetStream);
       index -= 1;
+
+      //call timeago jQuery plugin
+      $(".timeago").timeago();
     }          
   };
 
@@ -106,15 +111,22 @@ $(document).ready(function(){
       $tweet.append(': ' + tweet.message);
       $tweet.addClass('tweet');
       
-      var $timeStamp = $('<div></div>');
-      $timeStamp.text(tweet.created_at);
-      $timeStamp.addClass('timeStamp');
+      var $timeStamp = $('<time></time>');
+      $timeStamp.text(tweet.created_at.toISOString());
+      $timeStamp.addClass('timeago');
+      $timeStamp.attr('datetime', tweet.created_at.toISOString());            
       $timeStamp.appendTo($tweet);          
 
       $tweet.appendTo($tweetStream);
       newindex -= 1;
+
+      //call timeago jQuery plugin
+      $(".timeago").timeago();
     }
   }); 
+
+
+
 }); // end of $(document).ready(); function 
 
 
