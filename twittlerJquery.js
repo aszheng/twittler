@@ -1,10 +1,7 @@
-//original code - annotated
 $(document).ready(function(){
   var $body = $('body');
-  // this make sure body is cleared every time DOM is loaded
-  // $body.html(''); 
 
-  //tweetStream is a new <div> inside body
+  //create new tweetStream <div> inside body
   var $tweetStream = $('<div></div>');
   $tweetStream.addClass('tweetStream');
   $tweetStream.appendTo($body);
@@ -17,29 +14,29 @@ $(document).ready(function(){
       var $tweet = $('<div></div>');
 
       var tweetUser = tweet.user;
-      //create anchor tags on users (for returning user's tweets later)
+      //create anchor tags on users (for returning user's tweets)
       var $tweetUser = $('<a></a>');
       $tweetUser.text('@' + tweetUser);
-      //create class with user's username (for returning user's tweets later)
+      //create class with user's username (for returning user's tweets)
       $tweetUser.addClass(tweetUser);
 
-      //text for each tweet being manipulated in DOM using jQuery
+      //populating indivdual tweet/ manipulating DOM
       $tweet.append($tweetUser);
       $tweet.append(': ' + tweet.message);
       $tweet.addClass('tweet');
-
-// ** 2) Display the timestamps of when the tweets were created. This timestamp should reflect the actual time the tweets were created, and should not just be hardcoded.
             
-      //create new <time> elem inside of $tweet to store in new line                              
+      //create new <time> elem inside of <div> to store in new line                              
+      var $timeStampDiv = $('<div></div>')
       var $timeStamp = $('<time></time>');
       //use tweet's property "tweet.created_at". convert to ISO time format for timeago          
       $timeStamp.text(tweet.created_at.toISOString());
       $timeStamp.addClass('timeago');
       //add attr for timeago. convert to ISO time format for timeago
       $timeStamp.attr('datetime', tweet.created_at.toISOString());            
-      $timeStamp.appendTo($tweet);          
+      $timeStamp.appendTo($timeStampDiv);          
+      $timeStampDiv.appendTo($tweet);   
 
-      //tweet being appended to tweetStream
+      //tweet appended to tweetStream
       $tweet.appendTo($tweetStream);
       index -= 1;
 
@@ -56,41 +53,25 @@ $(document).ready(function(){
     $tweetStream.html('');
     tweetRefresh();
   }, 10000);
-
-// ** 1) Show the user new tweets somehow. (You can show them automatically as they're created, or create a button that displays new tweets.)
         
-  // create "Home" button (will use to return to feed after clicking on username later on)
-  var $homeButton = $('<button></button>');
-  $homeButton.text('Home Button');
-  $homeButton.addClass('homeButton');
-  $homeButton.insertAfter($('h1'));
-
-  // use event delegation on.('click','button', func) to get one new tweets
-  // tweets being added automatically. index is increasing
+  // use event delegation on.('click','.homeButton', func) to get new tweets
   $($body).on('click', '.homeButton', function () {
-    //clear tweetStream
+    //clear $tweetStream
     $tweetStream.html('');
-
-    //return fresh copy of tweetStream with new tweets
+    //return fresh copy of $tweetStream with new+old tweets
     tweetRefresh();     
   });     
-
-// ** 3) Design your interface so that you want to look at and use the product you're making.
-  //created link in HTML head for external css stylesheet
-
-// ** 4) Allow the user to click on a username to see that user's timeline.
         
   //FIXED ISSUE - where click doesn't work after Home is clicked/refreshed
   //must listen to the DOM itself, because jQuery selector returns element when DOM is first created
-  
   $(document).on('click', 'a', function () {
-    //save user's name. this refers to 'a'
+    //save user's name. this refers to 'a' anchor tags
     var username = $(this).attr('class'); 
 
-    //clears tweetStream 
+    //clears $tweetStream 
     $tweetStream.html('');
 
-    //For reference to see if while loop runs.
+    //for reference to see if below while loop runs.
     var $tweetStreamCount = $('<p></p>')
     $tweetStreamCount.text('@' + username + ' Tweets : ' + streams.users[username].length);
     $tweetStreamCount.addClass('tweetStreamCount');
@@ -111,29 +92,53 @@ $(document).ready(function(){
       $tweet.append(': ' + tweet.message);
       $tweet.addClass('tweet');
       
+      var $timeStampDiv = $('<div></div>')      
       var $timeStamp = $('<time></time>');
       $timeStamp.text(tweet.created_at.toISOString());
       $timeStamp.addClass('timeago');
       $timeStamp.attr('datetime', tweet.created_at.toISOString());            
-      $timeStamp.appendTo($tweet);          
+      $timeStamp.appendTo($timeStampDiv);          
+      $timeStampDiv.appendTo($tweet);       
 
       $tweet.appendTo($tweetStream);
       newindex -= 1;
 
-      //call timeago jQuery plugin
       $(".timeago").timeago();
     }
   }); 
 
 
+  //on click handler for submit button - referencing <form>
+  $('.newTweetForm').on('submit', function (e) {
+    e.preventDefault(); 
+    var newUser = $('.usernameInput').val();
+    var newMesg = $('.tweetInput').val();
+    // console.log('newUser:', newUser);
+    // console.log('newMesg:', newMesg);
 
-}); // end of $(document).ready(); function 
+    var newTweet = {}
+    //save user from usernameInput
+    newTweet.user = newUser;
+    //save tweet from tweetInput
+    newTweet.message = newMesg;
+    //save tweet.created_at by calling new Date()
+    newTweet.created_at = new Date();
 
+    //if user is new to the stream (not in streams.users)
+    if (!(newTweet.user in streams.users)) {
+      var newUser = newTweet.user;
+      //create empty array for user
+      streams.users[newUser] = [];
+    }
 
-//**code create own tweet** for extra credit later
-// var newTweet = {};
-// newTweet.message = 'HIIIIIII';
-// newTweet.user = 'mracus';
-// var $newTweet = $('<div></div>');
-// $newTweet.text('@' + newTweet.user + ': ' + newTweet.message);
-// $newTweet.appendTo($body);
+    //push newTweet obj to streams using addTweet(newTweet obj) function
+    addTweet(newTweet);
+
+    //reset input boxes
+    $('.usernameInput').val('');
+    $('.tweetInput').val('');
+
+    $tweetStream.html('');
+    tweetRefresh(); 
+  });
+});

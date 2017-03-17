@@ -8,13 +8,19 @@ h1 {
 	color: white;
 	text-align: center;
 	font-size: 48px;
+	margin-bottom: 10px;
 }
 
 button {
 	margin: auto;
 	display: block;
 	font-size: 10px;
-	font-style: italic;
+}
+
+input {
+	margin: auto;
+	display: block;
+	font-size: 10px;
 }
 
 h2 {
@@ -27,6 +33,14 @@ h2 {
 a {
 	color: blue;
 	text-decoration: underline;
+}
+
+.usernameInput{
+	margin-top: 15px;
+}
+
+.tweetInput{
+	height: 20px;
 }
 
 .tweetStream {
@@ -46,7 +60,6 @@ a {
 }
 
 .timeago {
-	background: white;
 	font-size: 10px;
 	font-style: italic;
 	color: grey;
@@ -54,6 +67,6 @@ a {
 
 .tweetStreamCount {
 	font-size: 10px;
-	color: black;
+	font-style: italic;
 }
 
