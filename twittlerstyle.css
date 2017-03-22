@@ -17,12 +17,6 @@ button {
 	font-size: 10px;
 }
 
-input {
-	margin: auto;
-	display: block;
-	font-size: 10px;
-}
-
 h2 {
 	color: #ccd6dd;
 	font-style: italic;
@@ -36,19 +30,30 @@ a {
 }
 
 .usernameInput{
+	margin: auto;
+	display: block;
+	width: 137px;
+	border: 1px solid #ccd6dd;	
 	margin-top: 15px;
 }
 
 .tweetInput{
-	height: 20px;
+	margin: auto;
+	display: block;	
+	width: 135px;
+	border: 1px solid #ccd6dd;				
+}
+
+.submitButton {
+	margin: auto;
+	display: block;	
+	font-size: 10px;		
 }
 
 .tweetStream {
 	background: white;
-	border-style: solid;
+	border: 2px solid #ccd6dd;
 	border-radius: 5px;
-	border-width: 2px;
-	border-color: #ccd6dd;
 	margin-left: 300px;
 	margin-right: 300px;
 }
